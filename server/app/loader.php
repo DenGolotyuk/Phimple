@@ -1,0 +1,66 @@
+<?
+
+class loader
+{
+	public static $map = array();
+	
+	public static function init()
+	{
+		self::$map = include ROOT . '/data/cache/loader';
+	}
+	
+	public static function compile()
+	{
+		self::$map = array();
+		
+		if ( defined('FROOT') ) self::gather_classes(FROOT);
+		if ( defined('ROOT') ) self::gather_classes(ROOT);
+		
+		file_put_contents(ROOT . '/data/cache/loader', self::generate_map_cache());
+		chmod(ROOT . '/data/cache/loader', 0777);
+	}
+
+	public static function gather_classes( $dir )
+	{
+		$i = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($dir),
+				RecursiveIteratorIterator::SELF_FIRST
+			);
+
+		foreach ( $i as $file )
+		{
+			if ( pathinfo($file, PATHINFO_EXTENSION) == 'php' )
+			{
+				$data = file_get_contents( $file );
+
+				if ( preg_match_all('/class ([a-z_0-9]+)/i', $data, $m) )
+				{
+					foreach ( $m[1] as $class_name ) self::$map[$class_name] = (string)$file;
+				}
+			}
+		}
+	}
+	
+	public static function generate_map_cache()
+	{
+		$src = '<? return array(';
+		
+		foreach ( self::$map as $class => $path )
+			$src .= "'{$class}' => '{$path}',\n";
+
+		return $src . ');';
+	}
+	
+	public static function path($name)
+	{
+		$path = self::$map[$name];
+		if ( !$path || !config::get('production') ) self::compile();
+		
+		return $path;
+	}
+}
+
+function __autoload($name)
+{
+	require_once loader::path($name);
+}
