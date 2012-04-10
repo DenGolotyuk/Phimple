@@ -26,7 +26,6 @@ class html_helper
 	{
 		return
 		'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		 <meta http-equiv="Content-Style-Type" content="text/css" />
 		 <link rel="shortcut icon" href="/favicon.ico" />' .
 		 self::css('/css.css') . 
 		 '<!--[if lt IE 8]>' . self::css('/css:ie.css') . '<![endif]-->';
