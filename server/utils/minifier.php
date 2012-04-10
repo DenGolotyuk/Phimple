@@ -46,6 +46,9 @@ class minifier
 		
 		foreach ( $group as $name => $content )
 		{
+			if ( pathinfo($name, PATHINFO_EXTENSION) == 'css' )
+				$content = reclient::css($content);
+			
 			if ( $sign[$name] == md5($content) ) continue;
 			
 			$sign[$name] = md5($content);

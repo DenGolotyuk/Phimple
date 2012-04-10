@@ -4,7 +4,18 @@ class render
 {
 	public static function action(action $action)
 	{
-		self::html($action);
+		if ( request::get_accept() == 'application/json' )
+			self::json($action);
+		else
+			self::html($action);
+	}
+	
+	public static function json($action)
+	{
+		$response = json_encode($action->json);
+		
+		response::set_header('Content-type', 'text/json; charset=utf8');
+		response::send($response);
 	}
 	
 	public static function html($action)
@@ -12,8 +23,6 @@ class render
 		if ( !config::get('production') ) minifier::compile();
 		
 		foreach ( $action as $var => $val ) $context[$var] = $val;
-		
-		ob_start();
 		
 		if ( $action->layout )
 			$response = self::html_layout($action->layout, $context);

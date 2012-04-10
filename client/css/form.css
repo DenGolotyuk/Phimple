@@ -1,0 +1,51 @@
+.button {
+	font-size: 1em;
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	padding: .5em 1.5em;
+	text-shadow: 1px 1px #777;
+	border-radius: 0.5em;
+	box-shadow: 2px #aaa;
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+}
+.button:hover {
+	background: #f47c20;
+	background-gradient: #f88e11, #f06015;
+	text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+.big .button { font-size: 1.5em; }
+
+input.text {
+	font-size: 1.25em; padding: 0.25em; border: 1px solid #ccc;
+	color: #555; width: 300px;
+
+}
+input.text:focus {
+	border-color: #aaa;
+	box-shadow: 8px #aaa;
+}
+
+.big input.text {
+	font-size: 2.5em; width: 600px;
+}
+
+form label {
+	font-size: 1em; color: #555; font-weight: normal; display: block;
+}
+
+.error {
+	position: absolute;
+	background: maroon; color: #fff; padding: 1em; display: none;
+}

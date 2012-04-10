@@ -5,6 +5,6 @@ App = {
 	{
 		App.context = context;
 		
-		eval(' if (' + context.action + '_action && ' + context.action + '_action.execute) ' + context.action + '_action.execute();');
+		eval(' if (typeof ' + context.action + '_action != "undefined" && typeof ' + context.action + '_action.execute != "undefined") ' + context.action + '_action.execute();');
 	}
 }

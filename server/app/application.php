@@ -19,6 +19,12 @@ class application
 		context::$action = new $name;
 		context::$action->execute();
 		
+		if ( (request::get_method() == 'POST') && method_exists(context::$action, 'execute_post') )
+			context::$action->execute_post();
+		
+		if ( (request::get_method() == 'GET') && method_exists(context::$action, 'execute_get') )
+			context::$action->execute_get();
+			
 		render::action(context::$action);
 	}
 	

@@ -58,7 +58,7 @@ class loader
 	public static function path($name)
 	{
 		$path = self::$map[$name];
-		if ( !$path || !config::get('production') )
+		if ( !$path && !config::get('production') )
 		{
 			self::compile();
 			$path = self::$map[$name];
