@@ -1,0 +1,17 @@
+#!/usr/local/bin/php
+
+<?
+
+if ( is_file($env_file = getcwd() . '/config/app/prod.php') )
+{
+	require_once getcwd() . '/app/boot.php';
+}
+else
+{
+	define('FROOT', realpath(dirname( __FILE__ ) . '/../'));
+
+	require_once FROOT . '/server/app/application.php';
+	application::init();
+}
+
+cli::init($argv);

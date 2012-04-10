@@ -6,7 +6,8 @@ class loader
 	
 	public static function init()
 	{
-		self::$map = include ROOT . '/data/cache/loader';
+		if ( defined('ROOT') )
+			@self::$map = include ROOT . '/data/cache/loader';
 	}
 	
 	public static function compile()
@@ -14,10 +15,13 @@ class loader
 		self::$map = array();
 		
 		if ( defined('FROOT') ) self::gather_classes(FROOT);
-		if ( defined('ROOT') ) self::gather_classes(ROOT);
-		
-		file_put_contents(ROOT . '/data/cache/loader', self::generate_map_cache());
-		chmod(ROOT . '/data/cache/loader', 0777);
+		if ( defined('ROOT') )
+		{
+			self::gather_classes(ROOT);
+			
+			file_put_contents(ROOT . '/data/cache/loader', self::generate_map_cache());
+			chmod(ROOT . '/data/cache/loader', 0777);
+		}
 	}
 
 	public static function gather_classes( $dir )
@@ -54,7 +58,11 @@ class loader
 	public static function path($name)
 	{
 		$path = self::$map[$name];
-		if ( !$path || !config::get('production') ) self::compile();
+		if ( !$path || !config::get('production') )
+		{
+			self::compile();
+			$path = self::$map[$name];
+		}
 		
 		return $path;
 	}

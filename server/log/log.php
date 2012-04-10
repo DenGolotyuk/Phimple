@@ -9,6 +9,11 @@ class log
 		self::instance()->log($message);
 	}
 	
+	public static function error($message)
+	{
+		self::instance()->log($message, 'error');
+	}
+	
 	public static function instance()
 	{
 		if ( !self::$instance )

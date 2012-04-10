@@ -1,0 +1,6 @@
+#!/usr/local/bin/php
+
+<?
+
+require_once dirname(__FILE__) . '/app/boot.php';
+cli::init($argv);
