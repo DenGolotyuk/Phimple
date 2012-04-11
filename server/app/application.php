@@ -7,6 +7,7 @@ class application
 {
 	public static function init()
 	{
+		error_handler::init();
 		config::init();
 		loader::init();
 	}
@@ -36,7 +37,7 @@ class application
 		$name .= '_task';
 		
 		$action = new $name;
-		$action->execute();
+		$action->execute($args);
 		
 		log::message('Done in ' . number_format(microtime(true) - $ts, 3) . 's');
 	}

@@ -56,4 +56,13 @@ class render
 		include $view;
 		return ob_get_clean();
 	}
+	
+	public static function exception($e)
+	{
+		if ( !$_SERVER['SHLVL'] )
+		{
+			ob_clean();
+			include dirname(__FILE__) . '/tpl/exception.php';
+		}
+	}
 }

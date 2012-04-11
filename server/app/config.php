@@ -18,8 +18,13 @@ class config
 		}
 	}
 	
-	public static function get($name)
+	public static function get()
 	{
-		return self::$data[$name];
+		$data = self::$data;
+		
+		foreach ( func_get_args() as $name )
+			$data = $data[$name];
+		
+		return $data;
 	}
 }
