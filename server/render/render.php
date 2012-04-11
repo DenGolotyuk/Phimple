@@ -64,14 +64,26 @@ class render
 	{
 		if ( !$_SERVER['SHLVL'] )
 		{
-			if ( $e instanceof no_action_exception )
+			if ( request::is_ajax() )
 			{
-				#header("Status: 404 Not Found");
-				include dirname(__FILE__) . '/tpl/404.php';
+				if ( !config::get('production') || ( config::get('production') && ($e instanceof pub_exception) ) )
+					$message = $e->getMessage();
+				else
+					$message = 'Извините, у нас произошла ошибка, попробуйте еще раз чуть позже';
+				
+				echo json_encode(array('exception' => $message));
 			}
 			else
 			{
-				include dirname(__FILE__) . '/tpl/exception.php';
+				if ( $e instanceof no_action_exception )
+				{
+					header("Status: 404 Not Found");
+					include dirname(__FILE__) . '/tpl/404.php';
+				}
+				else
+				{
+					include dirname(__FILE__) . '/tpl/exception.php';
+				}
 			}
 		}
 	}

@@ -12,8 +12,13 @@ App = {
 	initAjax: function()
 	{
 		$(document).on('ajaxSuccess', function(e, xhr, options, data) {
-			if ( data && data.redirect )
-				document.location = data.redirect;
+			if ( data )
+			{
+				if ( data.redirect )
+					document.location = data.redirect;
+				else if ( data.exception )
+					alert(data.exception);
+			}
 		});
 	}
 }
