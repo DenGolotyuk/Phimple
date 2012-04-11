@@ -59,6 +59,34 @@ class generate_model_task
 				$content = preg_replace('/const ' . $name . ' = \'(.+?)\';/', 'const ' . $name . ' = \'' . $val . '\';', $content);
 			}
 		}
+		else if ( $over )
+		{
+			$migrations = ROOT . '/data/migrations/';
+			if ( !is_dir($migrations) )
+			{
+				mkdir ($migrations, 0755, true);
+			}
+			else
+			{
+				$files = glob($migrations . '/*');
+				foreach ( $files as $file )
+				{
+					$fname = basename($file);
+					$idx = (int)$fname;
+					if ( $max < $idx ) $max = $idx;
+				}
+			}
+			
+			$migration = $migrations . '/' . ($max + 1) . '.' . $this->name . '.mgr';
+			file_put_contents($migration,
+			'create ' . $this->name . "\n" .
+			'	id: int +ai +pk' . "\n" .
+			'	ts: int'
+			);
+			
+			log::message('Generated new migration');
+			system("nano " . $migration . " > `tty`");
+		}
 
 		file_put_contents($dst, $content);
 		log::message('Created: ' . $dst);

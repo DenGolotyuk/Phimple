@@ -47,6 +47,8 @@ class render
 	
 	public static function html_view($tpl, $context = array())
 	{
+		$tpl = str_replace('_', '/', $tpl);
+		
 		foreach ( context::$action as $var => $val ) $$var = $val;
 		foreach ( $context as $var => $val ) $$var = $val;
 		
@@ -54,6 +56,7 @@ class render
 		$view = ROOT . '/app/actions/' . $tpl . '.phtml';
 		
 		include $view;
+		
 		return ob_get_clean();
 	}
 	
@@ -61,8 +64,15 @@ class render
 	{
 		if ( !$_SERVER['SHLVL'] )
 		{
-			ob_clean();
-			include dirname(__FILE__) . '/tpl/exception.php';
+			if ( $e instanceof no_action_exception )
+			{
+				#header("Status: 404 Not Found");
+				include dirname(__FILE__) . '/tpl/404.php';
+			}
+			else
+			{
+				include dirname(__FILE__) . '/tpl/exception.php';
+			}
 		}
 	}
 }

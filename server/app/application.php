@@ -15,7 +15,12 @@ class application
 	public static function run_action( $name = null )
 	{
 		if ( !$name ) $name = request::get_action_name();
+		
+		if ( !class_exists($name . '_action') )
+			$name = $name .= '_root';
+		
 		$name .= '_action';
+		if ( !class_exists($name) ) throw new no_action_exception();
 		
 		context::$action = new $name;
 		context::$action->execute();

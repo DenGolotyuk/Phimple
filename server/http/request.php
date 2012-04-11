@@ -23,4 +23,14 @@ class request
 		$accept = trim($_SERVER['HTTP_ACCEPT'], ';');
 		return array_shift(explode(', ', $accept));
 	}
+	
+	public static function is_ajax()
+	{
+		return (bool)$_SERVER['HTTP_X_REQUESTED_WITH'];
+	}
+	
+	public static function get_ip()
+	{
+		return sprintf("%u", ip2long($_SERVER['REMOTE_ADDR']));
+	}
 }

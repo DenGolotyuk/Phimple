@@ -2,7 +2,7 @@
 
 class mysql
 {
-	private static $default_connection = 'master';
+	public static $default_connection = 'master';
 	private static $connections = array();
 	
 	private $connection = 'master';
@@ -58,7 +58,7 @@ class mysql
 		return $st;
 	}
 	
-	public static function last_id($connection)
+	public function last_id($connection)
 	{
 		return self::con($connection)->lastInsertId();
 	}
