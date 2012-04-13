@@ -1,0 +1,7 @@
+#dialog {
+	position: absolute; top: -500px; left: 0; background: #222; width: 100%; padding: 10px;
+	color: #eee; box-shadow: 0 0 25px #555; opacity: 0.98;
+}
+
+#dialog a { color: #ddd; }
+#dialog form label { color: #ddd; }

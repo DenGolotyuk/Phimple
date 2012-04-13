@@ -8,19 +8,22 @@
 	padding: .5em 1.5em;
 	text-shadow: 1px 1px #777;
 	border-radius: 0.5em;
-	box-shadow: 2px #aaa;
 	color: #fef4e9;
-	border: solid 1px #da7c0c;
-	background: #f78d1d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+	border: solid 1px #1E577F;
+	background: #1E577F;
+	background: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50.01%, rgba(255, 255, 255, 0)), -webkit-linear-gradient(#0074AE, #073C66);
+	background: -moz-linear-gradient(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50.01%, rgba(255, 255, 255, 0)), -moz-linear-gradient(#0074AE, #073C66);
+	background: -ms-linear-gradient(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50.01%, rgba(255, 255, 255, 0)), -ms-linear-gradient(#0074AE, #073C66);
+	background: -o-linear-gradient(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50.01%, rgba(255, 255, 255, 0)), -o-linear-gradient(#0074AE, #073C66);
+	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50.01%, rgba(255, 255, 255, 0)), linear-gradient(#0074AE, #073C66);
 }
 .button:hover {
-	background: #f47c20;
-	background-gradient: #f88e11, #f06015;
+	box-shadow: 0 0 8px #555;
+	text-shadow: 0 0 15px #fff;
 	text-decoration: none;
 }
 .button:active {
+	box-shadow: none;
 	position: relative;
 	top: 1px;
 }
@@ -34,7 +37,12 @@ input.text {
 }
 input.text:focus {
 	border-color: #aaa;
-	box-shadow: 8px #aaa;
+	box-shadow: 0 0 8px #aaa;
+}
+
+form textarea {
+	font-size: 1.25em; padding: 0.25em; border: 1px solid #ccc;
+	color: #555; width: 98%; height: 200px; margin: 0 0 1em 0;
 }
 
 .big input.text {
@@ -48,4 +56,8 @@ form label {
 .error {
 	position: absolute;
 	background: maroon; color: #fff; padding: 1em; display: none;
+}
+
+.success {
+	background: green; color: #fff; padding: 1em; display: none;
 }

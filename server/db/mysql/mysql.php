@@ -99,7 +99,7 @@ class mysql
 		$st = self::query($sql['statement'], $sql['bind'], $connection);
 		$data = $st->fetch(PDO::FETCH_ASSOC);
 		
-		return array_shift($data);
+		return $data ? array_shift($data) : null;
 	}
 	
 	public function cols( $sql_or_filter, $bind_or_table = null, $column = '*', $connection = null )
@@ -138,6 +138,19 @@ class mysql
 		return $list;
 	}
 	
+	public static function process_key_value($k, $v, &$data, &$bind)
+	{
+		if ( is_array($v) )
+		{
+			if ( $v['sql'] ) $data[] = "`{$k}` = {$v['sql']}";
+		}
+		else
+		{
+			$data[] = "`{$k}` = :{$k}";
+			$bind[$k] = $v;
+		}
+	}
+	
 	public function insert($data, $table = null, $connection = null, $params = array())
 	{
 		foreach ( $data as $k => $v )
@@ -161,16 +174,10 @@ class mysql
 	public function insert_update($insert, $update, $table = null, $connection = null)
 	{
 		foreach ( $insert as $k => $v )
-		{
-			$new[] = "`{$k}` = :{$k}";
-			$bind[$k] = $v;
-		}
+			self::process_key_value($k, $v, $new, $bind);
 		
 		foreach ( $update as $k => $v )
-		{
-			$up[] = "`{$k}` = :{$k}";
-			$bind[$k] = $v;
-		}
+			self::process_key_value($k, $v, $up, $bind);
 		
 		if ( !$table && (get_class($this) == 'mysql') )
 			$table = $this->table;
@@ -198,7 +205,7 @@ class mysql
 		if ( !$table && (get_class($this) == 'mysql') )
 			$table = $this->table;
 		
-		$sql = 'UPDATE ' . $table . ' SET ' . implode(', ', $set) . ' WHERE ' . implode(',', $where);
+		$sql = 'UPDATE ' . $table . ' SET ' . implode(', ', $set) . ' WHERE ' . implode(' AND ', $where);
 		
 		return self::query($sql, $bind, $connection);
 	}
@@ -214,7 +221,7 @@ class mysql
 		if ( !$table && (get_class($this) == 'mysql') )
 			$table = $this->table;
 		
-		$sql = 'DELETE FROM ' . $table . ' WHERE ' . implode(',', $where);
+		$sql = 'DELETE FROM ' . $table . ' WHERE ' . implode(' AND ', $where);
 		
 		return self::query($sql, $bind, $connection);
 	}

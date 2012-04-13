@@ -23,7 +23,7 @@ class user
 	
 	public static function data($key = null)
 	{
-		$data = user_peer::get(self::id());
+		$data = users::get(self::id());
 		return $key ? $data[$key] : $data;
 	}
 	

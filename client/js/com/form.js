@@ -2,6 +2,11 @@ Form = {
 	bind: function( form )
 	{
 		$(form).submit(function() {
+			$('input, textarea', form).each(function() {
+				if ( $(this).attr('title') == $(this).val() )
+					$(this).val('');
+			});
+			
 			var action = $(this).attr('action') ? $(this).attr('action') : document.location.href;
 			var form = $(this);
 			var submit = $('button[type=submit]', form).text();
@@ -20,15 +25,26 @@ Form = {
 					if ( r.error )
 					{
 						var e = $('.error', form);
-						e.html(r.error).width(form.width() - parseInt(e.css('padding-left'))*2).show();
+						e.html(r.error).width(form.width() - parseInt(e.css('padding-left'))*2).fadeIn();
 					}
+				}
+				else if ( $('.success', form).length > 0 )
+				{
+					$('.success', form).fadeIn();
+				}
+				
+				var callback = $('form').attr('callback');
+				if ( callback )
+				{
+					var cb = eval(callback);
+					cb(r);
 				}
 				
 			}, 'json');
 			return false;
 		});
 		
-		$('input', form).focus(function() {
+		$('input, textarea', form).focus(function() {
 			$('.error', form).hide();
 		});
 	},

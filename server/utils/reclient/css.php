@@ -1,8 +1,8 @@
 <? return array(
 	'box-shadow' =>
-			'-moz-box-shadow: 0 0 $1 $2;
-			-webkit-box-shadow: 0 0 $1 $2;
-			box-shadow: 0 0 $1 $2;',
+			'-moz-box-shadow: *;
+			-webkit-box-shadow: *;
+			box-shadow: *;',
 	
 	'border-radius' =>
 			'border-radius: $1;

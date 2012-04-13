@@ -33,6 +33,11 @@ class {$name}_base
 		return self::db()->insert($data);
 	}
 	
+	public static function insert_ignore( $data )
+	{
+		return self::db()->insert($data, null, NULL, array('ignore' => true));
+	}
+	
 	public static function insert_update( $insert, $update )
 	{
 		return self::db()->insert_update($insert, $update);
@@ -40,11 +45,11 @@ class {$name}_base
 	
 	public static function save( $pk, $data )
 	{
-		return self::db()->update($data, array(self::PK => $pk));
+		return self::db()->update($data, is_array($pk) ? $pk : array(self::PK => $pk));
 	}
 	
 	public static function delete( $pk )
 	{
-		return self::db()->delete(array(self::PK => $pk));
+		return self::db()->delete( is_array($pk) ? $pk : array(self::PK => $pk) );
 	}
 }

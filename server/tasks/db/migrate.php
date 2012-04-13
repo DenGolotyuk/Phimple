@@ -38,7 +38,7 @@ class db_migrate_task
 			$operation = $m[1];
 			$table = $m[2];
 			
-			preg_match_all('/([a-z]+): (.+)/', $content, $m);
+			preg_match_all('/([_a-z]+): (.+)/', $content, $m);
 			
 			foreach ( $m[1] as $i => $column )
 			{

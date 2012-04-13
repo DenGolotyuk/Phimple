@@ -24,7 +24,7 @@ class render
 		
 		foreach ( $action as $var => $val ) $context[$var] = $val;
 		
-		if ( $action->layout )
+		if ( $action->layout && !request::is_ajax() )
 			$response = self::html_layout($action->layout, $context);
 		else
 			$response = self::html_view($action->view, $context);
@@ -56,7 +56,21 @@ class render
 		$view = ROOT . '/app/actions/' . $tpl . '.phtml';
 		
 		include $view;
+		return ob_get_clean();
+	}
+	
+	public static function html_partial($partial, $context = array())
+	{
+		$com = explode('/', $partial);
+		$tpl = 'partials/' . array_pop($com);
+		$tpl = implode('/', $com) . '/' . $tpl;
 		
+		foreach ( $context as $var => $val ) $$var = $val;
+		
+		ob_start();
+		$view = ROOT . '/app/actions/' . $tpl . '.phtml';
+		
+		include $view;
 		return ob_get_clean();
 	}
 	

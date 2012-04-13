@@ -20,5 +20,17 @@ App = {
 					alert(data.exception);
 			}
 		});
+	},
+	
+	include: function(name, cb)
+	{
+		var sign = '';
+		$('script').each(function() {
+			var src = $(this).attr('src');
+			var m = src.match(/js\.js\?(.+)/);
+			if ( m ) sign = m[1];
+		});
+		
+		include('/js:' + name + '.js?' + sign, cb);
 	}
 }

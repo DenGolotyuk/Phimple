@@ -4,6 +4,7 @@ class html_helper
 {
 	private static $signs = null;
 	private static $client_context = array();
+	private static $js_callbacks = array();
 	
 	public static function sign($path)
 	{
@@ -38,11 +39,18 @@ class html_helper
 		
 		return
 			self::js('/js.js') . 
-			'<script type="text/javascript">App.init(' . json_encode($context) . ');</script>';
+			'<script type="text/javascript">App.init(' . json_encode($context) . ');</script>' .
+			'<script type="text/javascript">' . implode(';', self::$js_callbacks) . '</script>';
 	}
 	
 	public static function set_client_context($name, $value)
 	{
 		self::$client_context[$name] = $value;
+	}
+	
+	public static function js_callback($cb)
+	{
+		if ( !strpos($cb, '(') ) $cb .= '()';
+		self::$js_callbacks[] = $cb;
 	}
 }

@@ -5,6 +5,8 @@ body, * { font-family: 'Droid Sans', Helvetica, Arial, sans-serif; }
 .left { float: left; }
 .right { float: right; }
 
+.nothing { font-size: 5em; color: #555; text-align: center; margin: 1em; }
+
 .clear { clear: both; }
 
 .ctr { width: 1000px; margin: 0 auto; }
@@ -14,9 +16,11 @@ p { margin: 0 0 1em 0; }
 a { color: #133C9A; }
 a:hover { color: #000; }
 
-h1 { font-size: 2.5em; margin-bottom: 0.5em; }
-h2 { font-size: 2em; margin-bottom: 0.5em; }
-h3 { font-size: 1.75em; margin-bottom: 0.5em; }
-h4 { font-size: 1.5em; margin-bottom: 0.5em; }
-h5 { font-size: 1.25em; margin-bottom: 0.5em; }
-h6 { font-size: 1em; margin-bottom: 0.5em; }
+hr { height: 1px; background: none; border: none; border-top: 1px dashed #ccc; margin: 0 0 1em 0; padding: 0; }
+
+h1 { font-size: 2.5em; margin-bottom: 0.5em; line-height: 125%; }
+h2 { font-size: 2em; margin-bottom: 0.5em; line-height: 125%; }
+h3 { font-size: 1.75em; margin-bottom: 0.5em; line-height: 125%; }
+h4 { font-size: 1.5em; margin-bottom: 0.5em; line-height: 125%; }
+h5 { font-size: 1.25em; margin-bottom: 0.5em; line-height: 125%; }
+h6 { font-size: 1em; margin-bottom: 0.5em; line-height: 125%; }
