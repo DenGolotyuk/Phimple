@@ -48,7 +48,9 @@ class generate_project_task
 			
 			exec('echo "" >> .gitignore');
 			exec('echo "/data/cache/*" >> .gitignore');
+			exec('echo "!.gitignore" >> .gitignore');
 			exec('echo "/config/env" >> .gitignore');
+			exec('touch ' . $this->path . '/data/cache/.gitignore');
 			
 			exec('git add -A');
 			exec('git commit --message "Initial structure"');

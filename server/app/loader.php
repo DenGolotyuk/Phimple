@@ -8,7 +8,7 @@ class loader
 	{
 		if ( defined('ROOT') )
 		{
-			$file = include ROOT . '/data/cache/loader';
+			$file = ROOT . '/data/cache/loader';
 			if ( is_file($file) )
 				self::$map = include $file;
 		}
