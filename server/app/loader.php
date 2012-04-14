@@ -7,7 +7,11 @@ class loader
 	public static function init()
 	{
 		if ( defined('ROOT') )
-			@self::$map = include ROOT . '/data/cache/loader';
+		{
+			$file = include ROOT . '/data/cache/loader';
+			if ( is_file($file) )
+				self::$map = include $file;
+		}
 	}
 	
 	public static function compile()

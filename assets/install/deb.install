@@ -14,8 +14,9 @@ rm /etc/php5/fpm/php.ini
 rm /etc/php5/cli/php.ini
 ln -s /var/www/phimple/assets/install/php.ini /etc/php5/cli
 ln -s /var/www/phimple/assets/install/php.ini /etc/php5/fpm
-
-
+/etc/init.d/php5-fpm restart
+ln -s /usr/bin/php /usr/local/bin/
+chmod +x /var/www/sociarm/phi
 
 # frontend
 apt-get install nginx-full git
