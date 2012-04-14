@@ -4,6 +4,11 @@ class user
 {
 	public static $session_started;
 	
+	public static function restrict()
+	{
+		if ( !self::id() ) response::redirect ('/login');
+	}
+	
 	public static function get($name)
 	{
 		if ( !self::$session_started ) self::$session_started = session_start();
