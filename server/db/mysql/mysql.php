@@ -191,16 +191,10 @@ class mysql
 	public function update($data, $filter, $table = null, $connection = null)
 	{
 		foreach ( $data as $k => $v )
-		{
-			$set[] = "`{$k}` = :{$k}";
-			$bind[$k] = $v;
-		}
+			self::process_key_value($k, $v, $set, $bind);
 		
 		foreach ( $filter as $k => $v )
-		{
-			$where[] = "`{$k}` = :{$k}";
-			$bind[$k] = $v;
-		}
+			self::process_key_value($k, $v, $where, $bind);
 		
 		if ( !$table && (get_class($this) == 'mysql') )
 			$table = $this->table;

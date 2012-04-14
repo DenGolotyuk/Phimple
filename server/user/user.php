@@ -18,7 +18,11 @@ class user
 	
 	public static function id()
 	{
-		return self::get('id');
+		$id = self::get('id');
+		
+		if ( !$id ) $id = self::try_login();
+			
+		return $id;
 	}
 	
 	public static function data($key = null)
@@ -27,13 +31,49 @@ class user
 		return $key ? $data[$key] : $data;
 	}
 	
+	public static function persist($id)
+	{
+		$user = users::get($id);
+		
+		$cookie = base64_encode($user['id'] . ':' . $user['pwd']) . ':' . md5($user['id'] . 'persistance');
+		setcookie('p', $cookie, time() + 60*60*24*30, '/');
+	}
+	
+	public static function clear_persist()
+	{
+		setcookie('p', null, null, '/');
+	}
+	
+	public static function try_login()
+	{
+		if ( $_COOKIE['p'] )
+		{
+			$com = explode(':', $_COOKIE['p']);
+			$data = explode(':', base64_decode($com[0]));
+			
+			$user = users::get($data[0]);
+			
+			if ( md5($user['id'] . 'persistance') == $com[1] )
+			{
+				if ( $data[1] == $user['pwd'] )
+					$id = $user['id'];
+			}
+		}
+		
+		if ( $id ) self::login ($id);
+		
+		return $id;
+	}
+	
 	public static function login($id)
 	{
 		self::set('id', $id);
+		self::persist($id);
 	}
 	
 	public static function logout()
 	{
 		self::set('id', null);
+		self::clear_persist();
 	}
 }

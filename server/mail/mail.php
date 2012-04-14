@@ -6,6 +6,9 @@ class mail
 	
 	public static function send($to, $subject, $view, $context = array())
 	{
+		if ( !$to ) return;
+		if ( !filter_var($to, FILTER_VALIDATE_EMAIL) ) return;
+		
 		$headers = "From: " . strip_tags($_POST['req-email']) . "\r\n" .
 					"Reply-To: ". strip_tags($_POST['req-email']) . "\r\n" .
 					"MIME-Version: 1.0\r\n" .

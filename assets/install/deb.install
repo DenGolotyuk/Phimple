@@ -1,0 +1,20 @@
+echo "deb http://packages.dotdeb.org squeeze all" >> /etc/apt/sources.list
+echo "deb-src http://packages.dotdeb.org squeeze all" >> /etc/apt/sources.list
+wget http://www.dotdeb.org/dotdeb.gpg
+cat dotdeb.gpg | apt-key add -
+apt-get update
+
+# backend
+apt-get install php5-fpm php5-cli php5-mysql php5-curl git
+
+# frontend
+apt-get install nginx-full git
+mkdir /var/www
+git clone git://github.com/DenGolotyuk/Phimple.git /var/www/phimple
+git clone https://DenGolotyuk@bitbucket.org/DenGolotyuk/sociarm.git /var/www/sociarm
+rm /etc/nginx/sites-enabled/default
+ln -s /var/www/sociarm/config/nginx/app.conf /etc/nginx/sites-enabled
+nginx -s reload
+
+#mail server
+apt-get install exim4

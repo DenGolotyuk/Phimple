@@ -20,6 +20,7 @@ Form = {
 				
 				$('button[type=submit]', form).text(submit).removeAttr('disabled');
 				
+				
 				if ( r )
 				{
 					if ( r.error )
