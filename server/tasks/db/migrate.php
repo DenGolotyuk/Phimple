@@ -23,9 +23,9 @@ class db_migrate_task
 			$this->migrate($migration);
 			$migrated[] = $name;
 			$total ++;
+			
+			file_put_contents($cache, implode("\n", $migrated));
 		}
-		
-		if ( $total ) file_put_contents($cache, implode("\n", $migrated));
 		
 		log::message( $total ? $total . ' migrations processed' : 'No new migrations found' );
 	}
