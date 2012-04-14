@@ -10,6 +10,8 @@ class db_migrate_task
 		$cache = ROOT . '/data/cache/db.migrations';
 		$migrated = file_exists($cache) ? explode("\n", file_get_contents($cache)) : array();
 		
+		natsort($migrations);
+		
 		foreach ( $migrations as $migration )
 		{
 			$name = basename($migration);
