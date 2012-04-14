@@ -43,3 +43,4 @@ git clone git://github.com/DenGolotyuk/Phimple.git /var/www/phimple
 mv /etc/mysql/my.cnf /etc/mysql/my.cnf.back
 ln -s /var/www/phimple/assets/install/my.cnf /etc/mysql
 /etc/init.d/mysql restart
+mysql -u root -p -e "create database sociarm default charset utf8"
