@@ -6,6 +6,7 @@ body, * { font-family: 'Droid Sans', Helvetica, Arial, sans-serif; }
 .right { float: right; }
 
 .nothing { font-size: 5em; color: #555; text-align: center; margin: 1em; }
+.btw { font-size: 0.75em; color: #555; }
 
 .clear { clear: both; }
 

@@ -20,11 +20,12 @@ Form = {
 				
 				$('button[type=submit]', form).text(submit).removeAttr('disabled');
 				
-				
+				var error = false;
 				if ( r )
 				{
 					if ( r.error )
 					{
+						var error = true;
 						var e = $('.error', form);
 						e.html(r.error).width(form.width() - parseInt(e.css('padding-left'))*2).fadeIn();
 					}
@@ -35,7 +36,7 @@ Form = {
 				}
 				
 				var callback = $('form').attr('callback');
-				if ( callback )
+				if ( callback && !error )
 				{
 					var cb = eval(callback);
 					cb(r);

@@ -17,4 +17,21 @@ class helper
 		if ( $delta <= 60*60*24*30  ) return 'в этом месяце';
 		if ( $delta <= 60*60*24*30*2  ) return 'давно';
 	}
+	
+	public static function url_params($url, $params = array())
+	{
+		$url = 'http://' . config::get('host') . '/' . $url;
+		
+		if ( $params )
+		{
+			foreach ( $params as $k => $v )
+			{
+				$q[] = "{$k}={$v}";
+			}
+			
+			$url .= '?' . implode('&', $q);
+		}
+		
+		return $url;
+	}
 }
