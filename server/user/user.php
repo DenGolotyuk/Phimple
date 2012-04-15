@@ -74,6 +74,8 @@ class user
 	{
 		self::set('id', $id);
 		self::persist($id);
+		
+		users::save($id, array('last_ts' => time()));
 	}
 	
 	public static function logout()

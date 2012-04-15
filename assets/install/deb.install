@@ -29,7 +29,23 @@ ln -s /var/www/sociarm/config/nginx/app.conf /etc/nginx/sites-enabled
 nginx -s reload
 
 #mail server
-apt-get install exim4
+# DNS:
+# overcia.com. IN TXT "v=spf1 a mx ~all"
+# mail._domainkey IN TXT "v=DKIM1; g=*; k=rsa; p=MIGfMA0GCS..."
+apt-get install exim4 dkim-filter
+hostname overcia.com
+dpkg-reconfigure exim4-config
+dkim-genkey -d overcia.com -s mail -r
+mv mail.private overcia.com.key
+cp overcia.com.key /etc/exim4
+chmod 755 /etc/exim4/overcia.com.key
+nano /etc/exim4/exim4.conf.template
+# (перед remote_smtp:)
+# DKIM_DOMAIN = ${lc:${domain:$h_from:}}
+# DKIM_FILE = /etc/exim4/${lc:${domain:$h_from:}}.key
+# DKIM_PRIVATE_KEY = ${if exists{DKIM_FILE}{DKIM_FILE}{0}}
+# DKIM_SELECTOR = mail
+# 
 
 #db
 echo "deb http://repo.percona.com/apt squeeze main" >> /etc/apt/sources.list
