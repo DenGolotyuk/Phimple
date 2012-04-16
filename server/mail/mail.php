@@ -25,8 +25,8 @@ class mail
 		
 		if ( $user ) users::save($user['id'], array('last_mail' => time()));
 		
-		$headers = "From: " . strip_tags($_POST['req-email']) . "\r\n" .
-					"Reply-To: ". strip_tags($_POST['req-email']) . "\r\n" .
+		$headers = "From: " . config::get('mail-from') . "\r\n" .
+					"Reply-To: ". config::get('mail-from') . "\r\n" .
 					"MIME-Version: 1.0\r\n" .
 					"Content-Type: text/html; charset=utf-8\r\n";
 		
