@@ -36,9 +36,9 @@ class mail
 		include ROOT . '/app/mails/layout.phtml';
 		$body = ob_get_clean();
 		
-		mail($to, $subject, $body, $headers);
-		
 		if ( !config::get('production') )
 			file_put_contents ('/var/www/mail.html', $body);
+		else
+			mail($to, $subject, $body, $headers);
 	}
 }
