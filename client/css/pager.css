@@ -1,0 +1,4 @@
+.pager { float: left; width: 100%; margin: 0.5em 0; }
+.pager .prev { float: left; }
+.pager .next { float: right; }
+.pager .inactive { color: #aaa; }
