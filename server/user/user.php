@@ -4,9 +4,15 @@ class user
 {
 	public static $session_started;
 	
-	public static function restrict()
+	public static function restrict($state = null)
 	{
 		if ( !self::id() ) response::redirect ('/login');
+		
+		if ( $state )
+		{
+			if ( self::data('state') < $state )
+				return true;
+		}
 	}
 	
 	public static function get($name)
