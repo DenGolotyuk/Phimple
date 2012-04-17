@@ -33,4 +33,9 @@ class request
 	{
 		return sprintf("%u", ip2long($_SERVER['REMOTE_ADDR']));
 	}
+	
+	public static function referrer()
+	{
+		return $_SERVER['HTTP_REFERER'];
+	}
 }

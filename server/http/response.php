@@ -21,4 +21,9 @@ class response
 		
 		exit;
 	}
+	
+	public static function back()
+	{
+		self::redirect(request::referrer());
+	}
 }
