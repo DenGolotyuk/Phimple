@@ -63,3 +63,6 @@ form label {
 .success {
 	background: green; color: #fff; padding: 1em; display: none;
 }
+.success a {
+	color: #fff;
+}
