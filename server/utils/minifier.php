@@ -4,8 +4,8 @@ class minifier
 {
 	public static function compile()
 	{
-		$list = self::gather_files(ROOT);
-		$list = array_merge($list, self::gather_files(FROOT));
+		$list = self::gather_files(FROOT);
+		$list = array_merge($list, self::gather_files(ROOT));
 		
 		self::pack($list);
 	}

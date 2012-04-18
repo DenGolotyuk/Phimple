@@ -13,13 +13,15 @@ Dialog = {
 	
 	show: function()
 	{
+		Dialog.close();
+		
 		if ( $('#dialog').length == 0 )
 		{
 			$('body').append('<div id="dialog"></div>');
 		}
 		
 		$('#dialog').animate({
-			top: $('body').attr('scrollTop') + 'px'
+			top: window.pageYOffset + 'px'
 		}, 250, 'ease-out');
 	},
 	
