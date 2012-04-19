@@ -40,5 +40,7 @@ class mail
 			file_put_contents ('/var/www/mail.html', $body);
 		else
 			mail($to, $subject, $body, $headers);
+		
+		if ( class_exists('stats') ) stats::track("mail:{$view}:send");
 	}
 }
