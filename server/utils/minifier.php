@@ -4,10 +4,26 @@ class minifier
 {
 	public static function compile()
 	{
-		$list = self::gather_files(FROOT);
-		$list = array_merge($list, self::gather_files(ROOT));
+		self::compile_app();
 		
-		self::pack($list);
+		$apps = glob(ROOT . '/*', GLOB_ONLYDIR);
+		foreach ( $apps as $dir )
+		{
+			if ( basename($dir) == 'app' ) continue;
+			
+			if ( file_exists($dir . '/web/index.php') )
+				self::compile_app(basename($dir));
+		}
+	}
+	
+	public static function compile_app($app = 'app')
+	{
+		log::message('Compiling ' . $app);
+		
+		$list = self::gather_files(FROOT . '/client');
+		$list = array_merge($list, self::gather_files(ROOT . '/' . $app));
+		
+		self::pack($list, $app);
 	}
 	
 	public static function gather_files($path)
@@ -17,7 +33,7 @@ class minifier
 		
 		foreach ( $files as $file )
 			if ( in_array(pathinfo($file, PATHINFO_EXTENSION), array('css', 'js')) )
-				if ( !strpos($file, 'app/web') )
+				if ( !strpos($file, '/web/') )
 					$list[] = $file;
 		
 		foreach ( glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir )
@@ -26,7 +42,7 @@ class minifier
 		return $list;
 	}
 	
-	public static function pack($list)
+	public static function pack($list, $app)
 	{
 		foreach ( $list as $file )
 		{
@@ -41,7 +57,7 @@ class minifier
 			if ( $ext == 'js' ) $group[$ext . $sufix . '.' . $ext] .= '; ';
 		}
 		
-		$signs = ROOT . '/app/web/signs.php';
+		$signs = ROOT . '/' . $app . '/web/signs.php';
 		if ( is_file($signs) ) $sign = include $signs;
 		
 		foreach ( $group as $name => $content )
@@ -50,10 +66,13 @@ class minifier
 				$content = reclient::css($content);
 			
 			if ( $sign[$name] == md5($content) ) continue;
+			log::message( $sign[$name] );
+			log::message( md5($content) );
+			log::message('');
 			
 			$sign[$name] = md5($content);
 			
-			$file = ROOT . '/app/web/' . $name;
+			$file = ROOT . '/' . $app . '/web/' . $name;
 			file_put_contents($file, $content);
 			exec('java -jar ' . FROOT . '/assets/utils/yui.jar ' . $file . ' -o ' . $file);
 		}

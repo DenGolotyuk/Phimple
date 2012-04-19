@@ -3,6 +3,7 @@
 class user
 {
 	public static $session_started;
+	public static $first = true;
 	
 	public static function restrict($state = null)
 	{
@@ -32,6 +33,11 @@ class user
 		$id = self::get('id');
 		
 		if ( !$id ) $id = self::try_login();
+		
+		if ( self::$first )
+		{
+			self::$first = false;
+		}
 			
 		return $id;
 	}

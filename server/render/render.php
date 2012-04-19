@@ -33,13 +33,28 @@ class render
 		response::send($response);
 	}
 	
+	public static function app()
+	{
+		return defined('PRE') ? PRE : 'app';
+	}
+	
+	public static function tpl($tpl)
+	{
+		$tpl = str_replace('_', '/' , $tpl);
+		
+		if ( defined('PRE') )
+			$tpl = str_replace(PRE . '/', '', $tpl);
+		
+		return $tpl;
+	}
+	
 	public static function html_layout($tpl, $context = array())
 	{
 		foreach ( context::$action as $var => $val ) $$var = $val;
 		foreach ( $context as $var => $val ) $$var = $val;
 		
 		ob_start();
-		$view = ROOT . '/app/layout/' . $tpl . '.phtml';
+		$view = ROOT . '/' . self::app() . '/layout/' . $tpl . '.phtml';
 		
 		include $view;
 		return ob_get_clean();
@@ -47,13 +62,11 @@ class render
 	
 	public static function html_view($tpl, $context = array())
 	{
-		$tpl = str_replace('_', '/', $tpl);
-		
 		foreach ( context::$action as $var => $val ) $$var = $val;
 		foreach ( $context as $var => $val ) $$var = $val;
 		
 		ob_start();
-		$view = ROOT . '/app/actions/' . $tpl . '.phtml';
+		$view = ROOT . '/' . self::app() . '/actions/' . self::tpl($tpl) . '.phtml';
 		
 		include $view;
 		return ob_get_clean();
@@ -68,7 +81,7 @@ class render
 		foreach ( $context as $var => $val ) $$var = $val;
 		
 		ob_start();
-		$view = ROOT . '/app/actions/' . $tpl . '.phtml';
+		$view = ROOT . '/' . self::app() . '/actions/' . self::tpl($tpl) . '.phtml';
 		
 		include $view;
 		return ob_get_clean();

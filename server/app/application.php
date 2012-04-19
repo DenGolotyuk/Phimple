@@ -15,6 +15,7 @@ class application
 	public static function run_action( $name = null )
 	{
 		if ( !$name ) $name = request::get_action_name();
+		if ( defined('PRE') ) $name = PRE . '_' . $name;
 		
 		if ( !class_exists($name . '_action') )
 			$name = $name .= '_root';
