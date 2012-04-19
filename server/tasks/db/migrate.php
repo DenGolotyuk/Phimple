@@ -17,10 +17,12 @@ class db_migrate_task
 			$name = basename($migration);
 			if ( in_array($name, $migrated) )
 				continue;
-			
+
 			log::message( str_repeat(' ', 5) . 'migrating ' . $name . '...');
 			
-			$this->migrate($migration);
+			if ( !in_array('mock', $params) )
+				$this->migrate($migration);
+			
 			$migrated[] = $name;
 			$total ++;
 			
@@ -67,7 +69,7 @@ class db_migrate_task
 								break;
 							
 							case 'unique':
-								$unq = $column;
+								$unq[] = $column;
 								break;
 							
 							default:
@@ -95,7 +97,7 @@ class db_migrate_task
 				$fields[] = 'PRIMARY KEY (`' . implode('`,`', $pk) . '`)';
 			
 			if ( $unq )
-				$fields[] = 'UNIQUE KEY `' . $unq . '` (`' . $unq . '`)';
+				$fields[] = 'UNIQUE KEY `' . implode('_', $unq) . '` (`' . implode('`,`', $unq) . '`)';
 			
 			if ( $operation == 'create' )
 				$sql = 'CREATE TABLE `' . $table . '` (' . implode(', ', $fields) . ') ENGINE=innoDB DEFAULT CHARSET=utf8';
