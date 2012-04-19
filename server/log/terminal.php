@@ -25,7 +25,7 @@ class terminal_logger
 
 	public function log($message, $level = null)
 	{
-		echo self::colored($message, $level == 'error' ? 'RED' : 'GREEN');
+		echo self::colored(date('d/m H:i:s') . ': ' . $message, $level == 'error' ? 'RED' : 'GREEN');
 		echo "\n";
 	}
 
