@@ -38,4 +38,9 @@ class request
 	{
 		return $_SERVER['HTTP_REFERER'];
 	}
+	
+	public static function uri()
+	{
+		return $_SERVER['REQUEST_URI'];
+	}
 }

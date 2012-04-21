@@ -48,6 +48,12 @@ class user
 		return $key ? $data[$key] : $data;
 	}
 	
+	public static function auth_param($id)
+	{
+		$user = users::get($id);
+		return base64_encode($user['id'] . ':' . $user['pwd']) . ':' . md5($user['id'] . 'persistance');
+	}
+	
 	public static function persist($id)
 	{
 		$user = users::get($id);
@@ -63,9 +69,9 @@ class user
 	
 	public static function try_login()
 	{
-		if ( $_COOKIE['p'] )
+		if ( $_REQUEST['p'] )
 		{
-			$com = explode(':', $_COOKIE['p']);
+			$com = explode(':', $_REQUEST['p']);
 			$data = explode(':', base64_decode($com[0]));
 			
 			$user = users::get($data[0]);
