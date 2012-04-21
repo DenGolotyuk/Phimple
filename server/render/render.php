@@ -6,8 +6,40 @@ class render
 	{
 		if ( request::get_accept() == 'application/json' )
 			self::json($action);
+		if ( $action->rss )
+			self::rss($action);
 		else
 			self::html($action);
+	}
+	
+	public static function rss($action)
+	{
+		$rss = $action->rss;
+		
+		$xml = '<?xml version="1.0" encoding="UTF-8" ?>
+		<rss version="2.0">
+
+		<channel>
+		<title>' . htmlspecialchars($rss['title']) . '</title>
+		<link>' . htmlspecialchars($rss['link']) . '</link>
+		<lastBuildDate>' . date('r') . '</lastBuildDate>
+		<pubDate>' . date('r') . '</pubDate>';
+
+		foreach ( $rss['items'] as $item )
+		{
+			$xml .= '<item>
+			<title>' . htmlspecialchars($item['title']) . '</title>
+			<description><![CDATA[' . $item['description'] . ']]></description>
+			<link>' . htmlspecialchars($item['link']) . '</link>
+			<guid isPermaLink="false">' . htmlspecialchars($item['guid']) . '</guid>
+			<pubDate>' . date('r', $item['ts']) . '</pubDate>
+			</item>';
+		}
+
+		$xml .= '</channel></rss>';
+		
+		response::set_header('Content-type', 'text/xml; charset=utf8');
+		response::send($xml);
 	}
 	
 	public static function json($action)
