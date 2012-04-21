@@ -26,6 +26,9 @@ class mail
 			if ( call_user_func(self::$unsub_provider . '::get', $email) ) return;
 		}
 		
+		if ( class_exists('mail_helper') )
+			mail_helper::before_sent($to, $subject, $view, $context);
+		
 		if ( $user ) users::save($user['id'], array('last_mail' => time()));
 		
 		$headers = "From: " . config::get('mail-from') . "\r\n" .
