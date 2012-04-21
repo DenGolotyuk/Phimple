@@ -7,20 +7,23 @@ class mail
 	public static function send($to, $subject, $view, $context = array())
 	{
 		if ( !$to ) return;
-		if (is_numeric($to) )
+		if ( is_numeric($to) )
 		{
 			if ( !$user = users::get($to) ) return;
-			$to = $user['email'];
+			if ( !users::allow_mail($to, $context) && config::get('production') ) return;
 			
-			if ( !$context['important'] && config::get('production') && ($user['last_mail'] > time() - 60*60*12) ) return;
-			
+			$email = $user['email'];
+		}
+		else
+		{
+			$email = $to;
 		}
 		
-		if ( !filter_var($to, FILTER_VALIDATE_EMAIL) ) return;
+		if ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) return;
 		
 		if ( self::$unsub_provider && class_exists(self::$unsub_provider) )
 		{
-			if ( call_user_func(self::$unsub_provider . '::get', $to) ) return;
+			if ( call_user_func(self::$unsub_provider . '::get', $email) ) return;
 		}
 		
 		if ( $user ) users::save($user['id'], array('last_mail' => time()));
@@ -39,8 +42,9 @@ class mail
 		if ( !config::get('production') )
 			file_put_contents ('/var/www/mail.html', $body);
 		else
-			mail($to, $subject, $body, $headers);
+			mail($email, $subject, $body, $headers);
 		
-		if ( class_exists('stats') ) stats::track("mail:{$view}:send");
+		if ( class_exists('mail_helper') )
+			mail_helper::on_sent($to, $subject, $view, $context);
 	}
 }
