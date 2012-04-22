@@ -6,7 +6,7 @@ class render
 	{
 		if ( request::get_accept() == 'application/json' )
 			self::json($action);
-		if ( $action->rss )
+		else if ( $action->rss )
 			self::rss($action);
 		else
 			self::html($action);
