@@ -7,6 +7,8 @@ class browser
 	
 	public $convert_charset;
 	
+	private $params = array();
+	
 	public function __construct()
 	{
 		$this->cookie_jar = tempnam('/tmp', 'curl-cookies');
@@ -20,6 +22,12 @@ class browser
 	public function get($url)
 	{
 		return $this->content = $this->execute($url);
+	}
+	
+	public function set_proxy($hostport)
+	{
+		$this->params[CURLOPT_PROXY] = $hostport;
+		#$this->params[CURLOPT_PROXYTYPE] = ;
 	}
 	
 	public function post($url, $fields = array())
@@ -61,7 +69,11 @@ class browser
 		$params[CURLOPT_FOLLOWLOCATION] = true;
 		$params[CURLOPT_USERAGENT] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:11.0) Gecko/20100101 Firefox/11.0';
 		
+		foreach ( $this->params as $name => $value )
+			$params[$name] = $value;
+		
 		$c = curl_init($url);
+		curl_setopt($c, CURLOPT_HTTPHEADER,array("Expect:"));
 		
 		foreach ( $params as $opt => $val )
 			curl_setopt ($c, $opt, $val);
