@@ -24,9 +24,17 @@ class browser
 		return $this->content = $this->execute($url);
 	}
 	
-	public function set_proxy($hostport)
+	public function set_proxy($hostport, $login = null, $pwd = null)
 	{
 		$this->params[CURLOPT_PROXY] = $hostport;
+		
+		if ( $login && $pwd )
+		{
+			$this->params[CURLOPT_PROXYAUTH] = CURLAUTH_BASIC;
+			$this->params[CURLOPT_PROXYUSERPWD] = $login . ':' . $pwd;
+			$this->params[CURLOPT_USERPWD] = $login . ':' . $pwd;
+		}
+		
 		#$this->params[CURLOPT_PROXYTYPE] = ;
 	}
 	
