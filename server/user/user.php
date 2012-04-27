@@ -69,9 +69,9 @@ class user
 	
 	public static function try_login()
 	{
-		if ( $_REQUEST['p'] )
+		if ( $_REQUEST['p'] || $_COOKIE['p'] )
 		{
-			$com = explode(':', $_REQUEST['p']);
+			$com = explode(':', $_REQUEST['p'] ? $_REQUEST['p'] : $_COOKIE['p']);
 			$data = explode(':', base64_decode($com[0]));
 			
 			$user = users::get($data[0]);
