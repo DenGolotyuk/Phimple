@@ -49,5 +49,7 @@ class mail
 		
 		if ( class_exists('mail_helper') )
 			mail_helper::on_sent($to, $subject, $view, $context);
+		
+		return true;
 	}
 }
