@@ -1,4 +1,11 @@
 .pager { float: left; width: 100%; margin: 0.5em 0; }
-.pager .prev { float: left; }
-.pager .next { float: right; }
+.pager .prev { float: left; width: 30%; }
+.pager .next { float: right; width: 30%; text-align: right; }
 .pager .inactive { color: #aaa; }
+
+.pager .pages { float: left; width: 40%; text-align: center; }
+.pager .pages a { margin: 0 0.25em; }
+.pager .pages a.active {
+	text-decoration: none; color: #000;
+	background: #eee; border-radius: 5px; padding: 5px;
+}

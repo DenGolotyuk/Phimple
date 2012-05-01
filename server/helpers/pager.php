@@ -22,4 +22,18 @@ class pager_helper
 	{
 		return (self::page() - 1)*$limit;
 	}
+	
+	public static function pages($total, $per_page = 20, $show = 10)
+	{
+		$pages = ceil($total/$per_page);
+		
+		$delta = $show/2;
+		$start = self::page() - $delta;
+		if ( $start < 1 ) $start = 1;
+		
+		$end = $start + $show;
+		if ( $end > $pages ) $end = $pages;
+		
+		return range($start, $end);
+	}
 }
