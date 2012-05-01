@@ -34,4 +34,21 @@ class helper
 		
 		return $url;
 	}
+	
+	public static function transliterate($st)
+	{
+		$st = strtr($st,  
+			"абвгдежзийклмнопрстуфыэАБВГДЕЖЗИЙКЛМНОПРСТУФЫЭ", 
+			"abvgdegziyklmnoprstufieABVGDEGZIYKLMNOPRSTUFIE" 
+		);
+		
+		$st = strtr($st, array( 
+			'yo'=>"ё",    'h'=>"х",  'ts'=>"ц",  'ch'=>"ч", 'sh'=>"ш",   
+			'shch'=>"o",  ''=>'ъ',   ''=>'ь',    'yu'=>"ю", 'ya'=>"я", 
+			'Yo'=>"Ё",    'H'=>"Х",  'Ts'=>"Ц",  'Ch'=>"Ч", 'Sh'=>"Ш", 
+			'Shch'=>"Щ",  ''=>'Ъ',   ''=>'Ь',    'Yu'=>"Ю", 'Ya'=>"Я", 
+		));
+		
+		return $st;
+	} 
 }
