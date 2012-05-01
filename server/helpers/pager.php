@@ -31,7 +31,7 @@ class pager_helper
 		$start = self::page() - $delta;
 		if ( $start < 1 ) $start = 1;
 		
-		$end = $start + $show;
+		$end = $start + $show - 1;
 		if ( $end > $pages ) $end = $pages;
 		
 		return range($start, $end);
