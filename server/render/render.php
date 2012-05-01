@@ -110,11 +110,13 @@ class render
 		$tpl = 'partials/' . array_pop($com);
 		$tpl = implode('/', $com) . '/' . $tpl;
 		
+		foreach ( context::$action as $var => $val ) $$var = $val;
 		foreach ( $context as $var => $val ) $$var = $val;
 		
-		ob_start();
 		$view = ROOT . '/' . self::app() . '/actions/' . self::tpl($tpl) . '.phtml';
+		if ( !is_file($view) ) return;
 		
+		ob_start();
 		include $view;
 		return ob_get_clean();
 	}
