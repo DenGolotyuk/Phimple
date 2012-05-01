@@ -5,6 +5,9 @@ class html_helper
 	private static $signs = null;
 	private static $client_context = array();
 	private static $js_callbacks = array();
+	private static $metas = array();
+	
+	private static $title = null;
 	
 	public static function sign($path)
 	{
@@ -29,7 +32,12 @@ class html_helper
 		'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		 <link rel="shortcut icon" href="/favicon.ico" />' .
 		 self::css('/css.css') . 
-		 '<!--[if lt IE 8]>' . self::css('/css:ie.css') . '<![endif]-->';
+		 '<!--[if lt IE 8]>' . self::css('/css:ie.css') . '<![endif]-->' . implode("\n", self::$metas);
+	}
+	
+	public static function add_meta($str)
+	{
+		self::$metas[] = $str;
 	}
 	
 	public static function foot($context = array())
@@ -52,5 +60,11 @@ class html_helper
 	{
 		if ( !strpos($cb, '(') ) $cb .= '()';
 		self::$js_callbacks[] = $cb;
+	}
+	
+	public static function title($title = null, $append = true)
+	{
+		if ( !$title ) return self::$title ? self::$title : config::get('default-title');
+		self::$title = $title . ( $append ? ' | ' . (self::$title ? self::$title : config::get('default-title')) : '' );
 	}
 }

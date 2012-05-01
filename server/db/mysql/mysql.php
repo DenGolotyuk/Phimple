@@ -107,6 +107,8 @@ class mysql
 		$sql = self::get_sql($sql_or_filter, $bind_or_table, $column);
 		
 		$st = self::query($sql['statement'], $sql['bind'], $connection);
+		$list = array();
+		
 		while ( $row = $st->fetch(PDO::FETCH_ASSOC) )
 		{
 			$list[] = array_shift($row);
