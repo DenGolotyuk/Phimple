@@ -8,6 +8,8 @@ class render
 			self::json($action);
 		else if ( $action->rss )
 			self::rss($action);
+		else if ( $action->xml )
+			self::xml($action);
 		else
 			self::html($action);
 	}
@@ -48,6 +50,12 @@ class render
 		
 		response::set_header('Content-type', 'text/json; charset=utf8');
 		response::send($response);
+	}
+	
+	public static function xml($action)
+	{
+		response::set_header('Content-type', 'text/xml; charset=utf8');
+		response::send($action->xml);
 	}
 	
 	public static function html($action)
