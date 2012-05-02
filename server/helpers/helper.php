@@ -18,6 +18,11 @@ class helper
 		if ( $delta <= 60*60*24*30*2  ) return 'давно';
 	}
 	
+	public static function date_time($ts)
+	{
+		return date('H:i d.m', $ts);
+	}
+	
 	public static function url_params($url, $params = array())
 	{
 		$url = 'http://' . config::get('host') . '/' . $url;
