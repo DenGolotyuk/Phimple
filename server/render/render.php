@@ -33,7 +33,7 @@ class render
 			<title>' . htmlspecialchars($item['title']) . '</title>
 			<description><![CDATA[' . $item['description'] . ']]></description>
 			<link>' . htmlspecialchars($item['link']) . '</link>
-			<guid isPermaLink="false">' . htmlspecialchars($item['guid']) . '</guid>
+			<guid isPermaLink="false">' . htmlspecialchars($item['id']) . '</guid>
 			<pubDate>' . date('r', $item['ts']) . '</pubDate>
 			</item>';
 		}
