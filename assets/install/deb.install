@@ -30,15 +30,16 @@ nginx -s reload
 
 #mail server
 # DNS:
-# overcia.com. IN TXT "v=spf1 a mx ~all"
+# domain. IN TXT "v=spf1 a mx ~all"
 # mail._domainkey IN TXT "v=DKIM1; g=*; k=rsa; p=MIGfMA0GCS..."
-apt-get install exim4 dkim-filter
-hostname overcia.com
+DOMAIN=avtoboo.ru
+apt-get install exim4 dkim-filter openssl
+hostname $DOMAIN
 dpkg-reconfigure exim4-config
-dkim-genkey -d overcia.com -s mail -r
-mv mail.private overcia.com.key
-cp overcia.com.key /etc/exim4
-chmod 755 /etc/exim4/overcia.com.key
+dkim-genkey -d $DOMAIN -s mail -r
+mv mail.private "$DOMAIN.key"
+cp "$DOMAIN.key" /etc/exim4
+chmod 755 "/etc/exim4/$DOMAIN.key"
 nano /etc/exim4/exim4.conf.template
 # (перед remote_smtp:)
 # DKIM_DOMAIN = ${lc:${domain:$h_from:}}
