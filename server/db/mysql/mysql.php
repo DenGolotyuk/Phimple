@@ -31,6 +31,7 @@ class mysql
 		if ( !self::$connections[$connection] )
 		{
 			$params = config::get('mysql', $connection);
+			
 			self::$connections[$connection] = new PDO( 'mysql:host=' . $params['host'] . ';dbname=' . $params['db'], $params['user'], $params['pwd'] );
 			self::$connections[$connection]->query('SET NAMES utf8');
 		}

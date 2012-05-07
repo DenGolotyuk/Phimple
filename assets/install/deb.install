@@ -5,7 +5,7 @@ cat dotdeb.gpg | apt-key add -
 apt-get update
 
 # backend
-apt-get install php5-fpm php5-cli php5-mysql php5-curl git
+apt-get install -y php5-fpm php5-cli php5-mysql php5-curl git
 mkdir /var/www
 git clone git://github.com/DenGolotyuk/Phimple.git /var/www/phimple
 git clone https://DenGolotyuk@bitbucket.org/DenGolotyuk/sociarm.git /var/www/sociarm
@@ -18,22 +18,23 @@ ln -s /var/www/phimple/assets/install/php.ini /etc/php5/fpm
 /etc/init.d/php5-fpm restart
 ln -s /usr/bin/php /usr/local/bin/
 chmod +x /var/www/sociarm/phi
+chmod 777 /var/www/sociarm/data/cache/
 
 # frontend
-apt-get install nginx-full git
+apt-get install -y nginx-full git
 mkdir /var/www
 git clone git://github.com/DenGolotyuk/Phimple.git /var/www/phimple
 git clone https://DenGolotyuk@bitbucket.org/DenGolotyuk/sociarm.git /var/www/sociarm
 rm /etc/nginx/sites-enabled/default
 ln -s /var/www/sociarm/config/nginx/app.conf /etc/nginx/sites-enabled
-nginx -s reload
+/etc/init.d/nginx restart
 
 #mail server
 # DNS:
 # domain. IN TXT "v=spf1 a mx ~all"
 # mail._domainkey IN TXT "v=DKIM1; g=*; k=rsa; p=MIGfMA0GCS..."
 DOMAIN=avtoboo.ru
-apt-get install exim4 dkim-filter openssl
+apt-get install -y exim4 dkim-filter openssl
 hostname $DOMAIN
 dpkg-reconfigure exim4-config
 dkim-genkey -d $DOMAIN -s mail -r
@@ -49,12 +50,13 @@ nano /etc/exim4/exim4.conf.template
 # 
 
 #db
-echo "deb http://repo.percona.com/apt squeeze main" >> /etc/apt/sources.list
-echo "deb-src http://repo.percona.com/apt squeeze main" >> /etc/apt/sources.list
-gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
-gpg -a --export CD2EFD2A | apt-key add -
-apt-get update
-apt-get install percona-server-server-5.5
+#echo "deb http://repo.percona.com/apt squeeze main" >> /etc/apt/sources.list
+#echo "deb-src http://repo.percona.com/apt squeeze main" >> /etc/apt/sources.list
+#gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+#gpg -a --export CD2EFD2A | apt-key add -
+#apt-get update
+#apt-get install -y percona-server-server-5.5
+apt-get install -y mysql-server-5.5
 mkdir /var/www
 git clone git://github.com/DenGolotyuk/Phimple.git /var/www/phimple
 mv /etc/mysql/my.cnf /etc/mysql/my.cnf.back

@@ -1,7 +1,9 @@
 PhotoUpload = {
-	show: function( cb )
+	show: function( cb, url )
 	{
-		Dialog.load('/upload/photo', {}, function() {
+		var url = url ? url : '/upload/photo';
+		
+		Dialog.load(url, {}, function() {
 			App.include('uploader', function() {
 				new AjaxUpload('upload-button', {
 					action: 'http://' + App.context.iserver + '/u.php?cb=' + cb
