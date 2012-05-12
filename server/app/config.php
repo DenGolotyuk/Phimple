@@ -14,7 +14,10 @@ class config
 	
 	public static function load($file)
 	{
-		$data = require ROOT . '/config/app/' . $file . '.php';;
+		$path = ROOT . '/config/app/' . $file . '.php';
+		if ( !is_file($path) ) return;
+		
+		$data = require $path;
 		self::$data = array_merge(self::$data, $data);
 	}
 	
