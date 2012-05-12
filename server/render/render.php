@@ -4,7 +4,7 @@ class render
 {
 	public static function action(action $action)
 	{
-		if ( request::get_accept() == 'application/json' )
+		if ( (request::get_accept() == 'application/json') || !is_null($action->json) )
 			self::json($action);
 		else if ( $action->rss )
 			self::rss($action);
