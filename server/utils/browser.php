@@ -2,7 +2,7 @@
 
 class browser
 {
-	private $content;
+	public $content;
 	private $cookie_jar;
 	
 	public $convert_charset;
