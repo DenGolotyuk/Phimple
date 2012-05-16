@@ -1,5 +1,8 @@
 <?
 
+if ( $_REQUEST['bhp'] && ($data = json_decode(base64_decode($_REQUEST['bhp'], true))) )
+	foreach ( $data as $k => $v ) $_REQUEST[$k] = $v;
+
 class request
 {
 	public static function get($name, $default = null)

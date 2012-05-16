@@ -23,18 +23,25 @@ class helper
 		return date('H:i d.m', $ts);
 	}
 	
-	public static function url_params($url, $params = array())
+	public static function url_params($url, $params = array(), $hash = null)
 	{
 		$url = 'http://' . config::get('host') . '/' . $url;
 		
 		if ( $params )
 		{
-			foreach ( $params as $k => $v )
+			if ( $hash )
 			{
-				$q[] = "{$k}={$v}";
+				$url .= '?bhp=' . base64_encode(json_encode($params));
 			}
-			
-			$url .= '?' . implode('&', $q);
+			else
+			{
+				foreach ( $params as $k => $v )
+				{
+					$q[] = "{$k}={$v}";
+				}
+
+				$url .= '?' . implode('&', $q);
+			}
 		}
 		
 		return $url;
