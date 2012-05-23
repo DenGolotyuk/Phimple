@@ -81,5 +81,6 @@ class minifier
 			$php[] = "'{$name}' => '{$md5}'";
 		
 		file_put_contents($signs, '<? return array(' . implode(', ', $php) . ');');
+		log::message(print_r($sign, 1));
 	}
 }

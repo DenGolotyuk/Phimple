@@ -11,7 +11,7 @@ class html_helper
 	
 	public static function sign($path)
 	{
-		if ( !self::$signs ) self::$signs = include ROOT . '/app/web/signs.php';
+		if ( !self::$signs ) self::$signs = include ROOT . '/' . ( defined('PRE') ? PRE : 'app' ) . '/web/signs.php';
 		
 		return substr(base_convert(self::$signs[trim($path, '/')], 16, 36), 0, 4);
 	}

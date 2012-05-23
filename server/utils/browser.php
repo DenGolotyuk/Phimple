@@ -24,6 +24,11 @@ class browser
 		return $this->content = $this->execute($url);
 	}
 	
+	public function set_param($name, $value)
+	{
+		$this->params[$name] = $value;
+	}
+	
 	public function set_proxy($hostport, $login = null, $pwd = null)
 	{
 		$this->params[CURLOPT_PROXY] = $hostport;
@@ -35,7 +40,7 @@ class browser
 			$this->params[CURLOPT_USERPWD] = $login . ':' . $pwd;
 		}
 		
-		#$this->params[CURLOPT_PROXYTYPE] = ;
+		$this->params[CURLOPT_PROXYTYPE] = CURLPROXY_SOCKS5;
 	}
 	
 	public function post($url, $fields = array())
