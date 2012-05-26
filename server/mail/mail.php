@@ -45,6 +45,8 @@ class mail
 		
 		if ( !config::get('production') )
 			file_put_contents ('/var/www/mail.html', $body);
+		else if ( config::get('mail_transport') == 'swift' )
+			self::send_swift($email, $subject, $body);
 		else
 			mail($email, $subject, $body, $headers);
 		
@@ -52,5 +54,32 @@ class mail
 			mail_helper::on_sent($to, $subject, $view, $context);
 		
 		return true;
+	}
+	
+	private static function send_swift($to, $subject, $body)
+	{
+		try
+		{
+			$mailer = Swift_Mailer::newInstance(Swift_SmtpTransport::newInstance());
+
+			$message = Swift_Message::newInstance()
+			->setFrom(array(config::get('mail-from') => config::get('site_title')))
+			->setTo($to)
+			->setSubject($subject)
+			->setBody($body, 'text/html', 'utf-8')
+			->setReturnPath(config::get('mail-from'));
+
+			$headers = $message->getHeaders();
+			$headers->addTextHeader('X-Report-Abuse-To', config::get('mail-from'));
+
+			$mailer->send($message);
+			$mailer->getTransport()->stop();
+			
+			unset($mailer);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }
