@@ -45,6 +45,11 @@ class loader
 				{
 					foreach ( $m[1] as $class_name ) self::$map[$class_name] = (string)$file;
 				}
+				
+				if ( preg_match_all('/interface ([a-z_0-9]+)/i', $data, $m) )
+				{
+					foreach ( $m[1] as $class_name ) self::$map[$class_name] = (string)$file;
+				}
 			}
 		}
 	}
