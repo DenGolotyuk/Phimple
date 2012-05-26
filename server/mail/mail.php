@@ -60,6 +60,8 @@ class mail
 	{
 		try
 		{
+			require_once FROOT . '/server/mail/swift/swift_required.php';
+			
 			$mailer = Swift_Mailer::newInstance(Swift_SmtpTransport::newInstance());
 
 			$message = Swift_Message::newInstance()
