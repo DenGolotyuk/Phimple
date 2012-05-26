@@ -79,6 +79,7 @@ class mail
 		}
 		catch (Exception $e)
 		{
+			error_log($e);
 			return false;
 		}
 	}
