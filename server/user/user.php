@@ -83,7 +83,7 @@ class user
 			}
 		}
 		
-		if ( $id ) self::login ($id);
+		if ( $id ) self::login($id);
 		
 		return $id;
 	}
@@ -94,6 +94,8 @@ class user
 		self::persist($id);
 		
 		users::save($id, array('last_ts' => time()));
+		
+		if ( class_exists('user_helper') ) user_helper::on_login($id);
 	}
 	
 	public static function logout()
