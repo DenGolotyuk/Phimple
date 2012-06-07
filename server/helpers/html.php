@@ -67,4 +67,11 @@ class html_helper
 		if ( !$title ) return self::$title ? self::$title : config::get('default-title');
 		self::$title = $title . ( $append ? ' | ' . (self::$title ? self::$title : config::get('default-title')) : '' );
 	}
+	
+	public static function attrs($list)
+	{
+		$attrs = array();
+		foreach ( $list as $k => $v ) $attrs[] = $k . '="' . $v . '"';
+		return implode(' ', $attrs);
+	}
 }

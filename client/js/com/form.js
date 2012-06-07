@@ -1,70 +1,75 @@
 Form = {
-	bind: function( form )
+	submit: function( form )
 	{
-		$(form).submit(function() {
-			$('input, textarea', form).each(function() {
-				if ( $(this).attr('title') == $(this).val() )
-					$(this).val('');
-			});
-			
-			var action = $(this).attr('action') ? $(this).attr('action') : document.location.href;
-			var form = $(this);
-			var submit = $('button[type=submit]', form).text();
-			
-			$('button[type=submit]', form).width( $('button[type=submit]', form).width() ).attr('disabled', true).html('&bull;&sdot;&sdot;');
-			Form.wait( $('button[type=submit]', form) );
-			
-			$('.error', form).hide();
-			
-			$.post(action, $(form).serialize(), function(r) {
-				
-				$('button[type=submit]', form).text(submit).removeAttr('disabled');
-				
-				var error = false;
-				if ( r )
-				{
-					if ( r.error )
-					{
-						var error = true;
-						var e = $('.error', form);
-						e.html(r.error).width(form.width() - parseInt(e.css('padding-left'))*2).fadeIn();
-					}
-				}
-				else if ( $('.success', form).length > 0 )
-				{
-					$('.success', form).fadeIn();
-				}
-				
-				var callback = $('form').attr('callback');
-				if ( callback && !error )
-				{
-					var cb = eval(callback);
-					cb(r);
-				}
-				
-			}, 'json');
-			return false;
+		$('input, textarea', form).each(function() {
+			if ( $(this).attr('title') == $(this).val() ) $(this).val('');
 		});
-		
-		$('input, textarea', form).focus(function() {
-			$('.error', form).hide();
-		});
+
+		var action = form.attr('action') ? form.attr('action') : document.location.href;
+
+		Form.wait( $('button[type=submit]', form) );
+
+		$('.error', form).hide();
+
+		$.post(action, $(form).serialize(), function(r) {
+
+			Form.stop_wait($('button[type=submit]', form));
+
+			var error = false;
+			if ( r )
+			{
+				if ( r.error )
+				{
+					var error = true;
+					var e = $('.error', form);
+					e.html(r.error).width(form.width() - parseInt(e.css('padding-left'))*2).fadeIn();
+				}
+			}
+			else if ( $('.success', form).length > 0 )
+			{
+				$('.success', form).fadeIn(250);
+			}
+
+			var callback = form.attr('callback');
+			
+			if ( callback && !error )
+			{
+				var cb = eval(callback);
+				cb(r);
+			}
+
+		}, 'json');
 	},
 	
-	wait: function( btn )
+	wait: function( btn, waiting )
 	{
-		if ( !btn.attr('disabled') ) return;
-		
-		if ( btn.attr('stage') == '2' ) btn.html('&sdot;&sdot;&bull;').attr('stage', '3');
-		else if ( btn.attr('stage') == '3' ) btn.html('&bull;&sdot;&sdot;').attr('stage', '1');
-		else btn.html('&sdot;&bull;&sdot;').attr('stage', '2')
-		
-		setTimeout(function() {Form.wait(btn);}, 150);
+		if ( !waiting )
+		{
+			btn.width( btn.width() ).attr('disabled', true).attr('old_text', btn.text()).html('&bull;&sdot;&sdot;');
+		}
+		else
+		{
+			if ( !btn.attr('disabled') ) return;
+
+			if ( btn.attr('stage') == '2' ) btn.html('&sdot;&sdot;&bull;').attr('stage', '3');
+			else if ( btn.attr('stage') == '3' ) btn.html('&bull;&sdot;&sdot;').attr('stage', '1');
+			else btn.html('&sdot;&bull;&sdot;').attr('stage', '2')
+
+			setTimeout(function() {Form.wait(btn, true);}, 150);
+		}
+	},
+	
+	stop_wait: function( btn )
+	{
+		btn.text(btn.attr('old_text')).removeAttr('disabled');
 	}
 }
 
 Zepto(function(){
-  $('form').each(function() {
-	 Form.bind(this); 
-  });
+	
+	$('form').live('submit', function() {Form.submit($(this)); return false;} );
+	
+	$('input, textarea').live('focus', function() {
+		$('.error').hide();
+	});
 })

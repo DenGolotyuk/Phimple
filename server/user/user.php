@@ -7,7 +7,7 @@ class user
 	
 	public static function restrict($state = null)
 	{
-		if ( !self::id() ) response::redirect ('/login');
+		if ( !self::id() ) response::redirect ( config::get('login_url') ? config::get('login_url') : '/login');
 		
 		if ( $state )
 		{
