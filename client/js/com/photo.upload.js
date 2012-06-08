@@ -15,7 +15,7 @@ PhotoUpload = {
 	
 	getPath: function(f)
 	{
-		var m = App.context.iserver.match(/i([0-9]+)/);
+		var m = App.context.iserver.match(/i.*?([0-9]+)/);
 		var file = m[1] + ':' + f;
 		
 		return file;
