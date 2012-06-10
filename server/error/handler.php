@@ -16,6 +16,6 @@ class error_handler
 	
 	public static function error($errno, $errstr, $errfile, $errline )
 	{
-		throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+		#throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 	}
 }
