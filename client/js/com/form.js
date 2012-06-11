@@ -68,7 +68,12 @@ Form = {
 
 Zepto(function(){
 	
-	$('form').live('submit', function() {Form.submit($(this)); return false;} );
+	$('form').live('submit', function() {
+		if ( $(this).hasClass('no-ajax') ) return;
+		
+		Form.submit($(this));
+		return false;
+	} );
 	
 	$('input, textarea').live('focus', function() {
 		$('.error').hide();
