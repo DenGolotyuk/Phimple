@@ -46,6 +46,7 @@ Form = {
 		if ( !waiting )
 		{
 			btn.width( btn.width() ).attr('disabled', true).attr('old_text', btn.text()).html('&bull;&sdot;&sdot;');
+			setTimeout(function() {Form.wait(btn, true);}, 150);
 		}
 		else
 		{
@@ -54,7 +55,7 @@ Form = {
 			if ( btn.attr('stage') == '2' ) btn.html('&sdot;&sdot;&bull;').attr('stage', '3');
 			else if ( btn.attr('stage') == '3' ) btn.html('&bull;&sdot;&sdot;').attr('stage', '1');
 			else btn.html('&sdot;&bull;&sdot;').attr('stage', '2')
-
+			
 			setTimeout(function() {Form.wait(btn, true);}, 150);
 		}
 	},
