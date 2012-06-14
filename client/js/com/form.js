@@ -75,7 +75,7 @@ Zepto(function(){
 		return false;
 	} );
 	
-	$('input, textarea').live('focus', function() {
-		$('.error').hide();
-	});
+	$('input, textarea').live('focus', function() { $('.error').hide(); });
+	$('input, textarea').live('click', function() { $('.error').hide(); });
+	$('input, textarea').live('change', function() { $('.error').hide(); });
 })

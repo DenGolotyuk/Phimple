@@ -19,5 +19,11 @@ PhotoUpload = {
 		var file = m[1] + ':' + f;
 		
 		return file;
+	},
+	
+	getServerFromPhoto: function(p)
+	{
+		var m = p.match(/(http:\/\/i.*?[0-9]+\.[^/]+?\/).+/);
+		return m[1];
 	}
 }
