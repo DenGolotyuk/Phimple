@@ -34,7 +34,7 @@ class mail
 		$headers = "From: " . config::get('mail-from') . "\r\n" .
 					"Reply-To: ". config::get('mail-from') . "\r\n" .
 					"MIME-Version: 1.0\r\n" .
-					"X-Mailru-Msgtype:: {$view}\r\n" .
+					"X-Mailru-Msgtype: {$view}\r\n" .
 					"Content-Type: text/html; charset=utf-8\r\n";
 		
 		foreach ( $context as $var => $value ) $$var = $value;
