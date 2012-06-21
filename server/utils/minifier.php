@@ -74,13 +74,14 @@ class minifier
 			
 			$file = ROOT . '/' . $app . '/web/' . $name;
 			file_put_contents($file, $content);
-			exec('java -jar ' . FROOT . '/assets/utils/yui.jar ' . $file . ' -o ' . $file);
+			
+			if ( !config::get('static-no-compile') )
+				exec('java -jar ' . FROOT . '/assets/utils/yui.jar ' . $file . ' -o ' . $file);
 		}
 		
 		foreach ( $sign as $name => $md5 )
 			$php[] = "'{$name}' => '{$md5}'";
 		
 		file_put_contents($signs, '<? return array(' . implode(', ', $php) . ');');
-		log::message(print_r($sign, 1));
 	}
 }

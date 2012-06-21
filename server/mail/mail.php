@@ -49,7 +49,9 @@ class mail
 			self::send_swift($email, $subject, $body);
 		else
 			mail($email, $subject, $body, $headers);
-		
+			
+		if ( $debug_file ) file_put_contents($debug_file, $body);
+
 		if ( class_exists('mail_helper') )
 			mail_helper::on_sent($to, $subject, $view, $context);
 		
