@@ -9,13 +9,13 @@ class loader
 		if ( defined('ROOT') )
 		{
 			$file = ROOT . '/data/cache/loader';
-			if ( is_file($file) )
-				self::$map = include $file;
+			if ( is_file($file) ) self::$map = include $file;
 		}
 	}
 	
 	public static function compile()
 	{
+		return;
 		self::$map = array();
 		
 		if ( defined('FROOT') ) self::gather_classes(FROOT);
@@ -37,18 +37,18 @@ class loader
 
 		foreach ( $i as $file )
 		{
+			if ( strpos($file, '/oi/') ) continue;
+			if ( strpos($file, '/swift/') ) continue;
+			
 			if ( pathinfo($file, PATHINFO_EXTENSION) == 'php' )
 			{
+				error_log($file);
+				
 				$data = file_get_contents( $file );
 
-				if ( preg_match_all('/class ([a-z_0-9]+)/i', $data, $m) )
+				if ( preg_match_all('/(class|interface) ([a-z_0-9]+)/i', $data, $m) )
 				{
-					foreach ( $m[1] as $class_name ) self::$map[$class_name] = (string)$file;
-				}
-				
-				if ( preg_match_all('/interface ([a-z_0-9]+)/i', $data, $m) )
-				{
-					foreach ( $m[1] as $class_name ) self::$map[$class_name] = (string)$file;
+					foreach ( $m[2] as $class_name ) self::$map[$class_name] = (string)$file;
 				}
 			}
 		}
@@ -66,7 +66,10 @@ class loader
 	
 	public static function path($name)
 	{
+		if ( !self::$map ) self::init();
+		
 		$path = self::$map[$name];
+		
 		if ( !$path && !config::get('production') )
 		{
 			self::compile();

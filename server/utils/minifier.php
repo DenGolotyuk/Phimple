@@ -64,7 +64,7 @@ class minifier
 		{
 			if ( pathinfo($name, PATHINFO_EXTENSION) == 'css' )
 				$content = reclient::css($content);
-			
+						
 			if ( $sign[$name] == md5($content) ) continue;
 			log::message( $sign[$name] );
 			log::message( md5($content) );

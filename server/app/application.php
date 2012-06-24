@@ -9,7 +9,6 @@ class application
 	{
 		error_handler::init();
 		config::init();
-		loader::init();
 	}
 	
 	public static function run_action( $name = null )

@@ -8,10 +8,10 @@ class reclient
 		
 		foreach ( $instructions as $command => $representation )
 		{
-			"/{$command}:(.+)[;}]/";
 			preg_match_all("/{$command}:([^;}]+)[;}]/", $data, $m);
+			$list = array_unique($m[1]);
 			
-			foreach ( $m[1] as $match )
+			foreach ( $list as $match )
 			{
 				$to_replace = $command . ':' . $match;
 				$args = explode(' ', trim($match));
@@ -20,7 +20,9 @@ class reclient
 				$replacement = str_replace('*', $match, $replacement);
 				
 				foreach ( $args as $num => $val )
+				{
 					$replacement = str_replace('$' . ($num+1), $val, $replacement);
+				}
 				
 				$data = str_replace($to_replace, $replacement, $data);
 			}
