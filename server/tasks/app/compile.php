@@ -6,6 +6,7 @@ class compile_task
 	{
 		log::message('Compiling loader...');
 		loader::compile();
+		if ( $params && ($params[0] == 'loader') ) return;
 		
 		log::message('Compiling JS/CSS...');
 		minifier::compile();

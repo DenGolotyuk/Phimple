@@ -41,8 +41,6 @@ class loader
 			
 			if ( pathinfo($file, PATHINFO_EXTENSION) == 'php' )
 			{
-				error_log($file);
-				
 				$data = file_get_contents( $file );
 
 				if ( preg_match_all('/(class|interface) ([a-z_0-9]+)/i', $data, $m) )
