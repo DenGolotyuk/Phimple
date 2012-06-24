@@ -15,7 +15,6 @@ class loader
 	
 	public static function compile()
 	{
-		return;
 		self::$map = array();
 		
 		if ( defined('FROOT') ) self::gather_classes(FROOT);
@@ -67,7 +66,6 @@ class loader
 	public static function path($name)
 	{
 		if ( !self::$map ) self::init();
-		
 		$path = self::$map[$name];
 		
 		if ( !$path && !config::get('production') )

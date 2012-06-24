@@ -23,7 +23,10 @@ class application
 		if ( !class_exists($name) ) throw new no_action_exception();
 		
 		context::$action = new $name;
-		context::$action->execute();
+		
+		if ( method_exists(context::$action, 'init') ) context::$action->init();
+		
+		if ( method_exists(context::$action, 'execute') ) context::$action->execute();
 		
 		if ( (request::get_method() == 'POST') && method_exists(context::$action, 'execute_post') )
 			context::$action->execute_post();
