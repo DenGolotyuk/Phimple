@@ -24,6 +24,6 @@ PhotoUpload = {
 	getServerFromPhoto: function(p)
 	{
 		var m = p.match(/(http:\/\/i.*?[0-9]+\.[^/]+?\/).+/);
-		return m[1];
+		return m ? m[1] : null;
 	}
 }

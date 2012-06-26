@@ -40,7 +40,7 @@ class browser
 			$this->params[CURLOPT_USERPWD] = $login . ':' . $pwd;
 		}
 		
-		$this->params[CURLOPT_PROXYTYPE] = CURLPROXY_SOCKS5;
+		#$this->params[CURLOPT_PROXYTYPE] = CURLPROXY_SOCKS5;
 	}
 	
 	public function post($url, $fields = array())
