@@ -51,7 +51,9 @@ class user
 	public static function auth_param($id)
 	{
 		$user = users::get($id);
-		return base64_encode($user['id'] . ':' . $user['pwd']) . ':' . md5($user['id'] . 'persistance');
+		$p = base64_encode($user['id'] . ':' . $user['pwd']) . ':' . md5($user['id'] . 'persistance');
+		
+		return $p;
 	}
 	
 	public static function persist($id)
