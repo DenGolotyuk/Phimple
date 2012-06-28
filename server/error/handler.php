@@ -11,7 +11,7 @@ class error_handler
 	public static function exception($e)
 	{
 		render::exception($e);
-		log::error($e);
+		log::error($e . "\nurl: " . $_SERVER['REQUEST_URI'] . "\nref: " . $_SERVER['HTTP_REFERER']);
 	}
 	
 	public static function error($errno, $errstr, $errfile, $errline )

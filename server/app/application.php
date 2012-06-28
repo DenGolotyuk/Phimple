@@ -20,7 +20,7 @@ class application
 			$name = $name .= '_root';
 		
 		$name .= '_action';
-		if ( !class_exists($name) ) throw new no_action_exception();
+		if ( !class_exists($name) ) throw new no_action_exception($name);
 		
 		context::$action = new $name;
 		
