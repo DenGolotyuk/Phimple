@@ -16,6 +16,18 @@ class user
 		}
 	}
 	
+	public static function isa()
+	{
+		$states = func_get_args();
+		
+		if ( !self::id() ) return false;
+		if ( !is_array($states) ) $states = array($states);
+		
+		if ( !in_array(self::data('state'), $states) ) return false;
+		
+		return true;
+	}
+	
 	public static function get($name)
 	{
 		if ( !self::$session_started ) self::$session_started = session_start();
