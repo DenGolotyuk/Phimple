@@ -17,6 +17,9 @@ class mail
 		else
 		{
 			$email = $to;
+			
+			if ( method_exists('mail_helper', 'allow') )
+				if ( !mail_helper::allow($email) ) return;
 		}
 		
 		if ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) return;
@@ -26,7 +29,7 @@ class mail
 			if ( call_user_func(self::$unsub_provider . '::get', $email) ) return;
 		}
 		
-		if ( class_exists('mail_helper') )
+		if ( method_exists('mail_helper', 'before_sent') )
 			mail_helper::before_sent($to, $subject, $view, $context);
 		
 		if ( $user ) users::save($user['id'], array('last_mail' => time()));
@@ -52,7 +55,7 @@ class mail
 			
 		if ( $debug_file ) file_put_contents($debug_file, $body);
 
-		if ( class_exists('mail_helper') )
+		if ( method_exists('mail_helper', 'on_sent') )
 			mail_helper::on_sent($to, $subject, $view, $context);
 		
 		return true;
