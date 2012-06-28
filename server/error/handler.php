@@ -11,7 +11,10 @@ class error_handler
 	public static function exception($e)
 	{
 		render::exception($e);
-		log::error($e . "\nurl: " . $_SERVER['REQUEST_URI'] . "\nref: " . $_SERVER['HTTP_REFERER']);
+		log::error(
+			$e . "\nurl: " . $_SERVER['REQUEST_URI'] . "\nref: " . $_SERVER['HTTP_REFERER'] .
+			( class_exists('user') ? ("\n" . 'user: ' . user::id()) : '' )
+		);
 	}
 	
 	public static function error($errno, $errstr, $errfile, $errline )
