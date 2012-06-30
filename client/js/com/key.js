@@ -30,7 +30,7 @@ function handleKeys(e)
 	}
 	else if ( e.keyCode == 27)
 	{
-		Key.esc();
+		if ( Key.esc ) Key.esc();
 	}
 	else if ( e.keyCode )
 	{

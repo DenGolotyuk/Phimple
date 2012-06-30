@@ -17,8 +17,8 @@ ln -s /var/www/phimple/assets/install/php.ini /etc/php5/cli
 ln -s /var/www/phimple/assets/install/php.ini /etc/php5/fpm
 /etc/init.d/php5-fpm restart
 ln -s /usr/bin/php /usr/local/bin/
-chmod +x /var/www/hambl/phi
-chmod 777 /var/www/hambl/data/cache/
+chmod +x /var/www/igraton/phi
+chmod 777 /var/www/igraton/data/cache/
 
 # frontend
 apt-get install -y nginx-full git
