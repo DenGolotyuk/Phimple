@@ -19,7 +19,7 @@ class mail
 			$email = $to;
 			
 			if ( method_exists('mail_helper', 'allow') )
-				if ( !mail_helper::allow($email) ) return;
+				if ( !mail_helper::allow($email, $context) ) return;
 		}
 		
 		if ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) return;
