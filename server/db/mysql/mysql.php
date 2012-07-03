@@ -155,6 +155,11 @@ class mysql
 		}
 	}
 	
+	public function escape($sql, $connection = null)
+	{
+		return self::con($connection)->quote($sql);
+	}
+	
 	public function insert($data, $table = null, $connection = null, $params = array())
 	{
 		foreach ( $data as $k => $v )
